@@ -1,4 +1,5 @@
 from app import db
+from app.model.product import Product
 from datetime import datetime
 
 class Variant(db.Model):
@@ -8,6 +9,7 @@ class Variant(db.Model):
     variant_metric = db.Column(db.String(10), nullable= True)
     variant_color = db.Column(db.String(30), nullable = True)
     logo_id = db.Column(db.BigInteger, nullable= False)
+    product_id = db.Column(db.BigInteger, db.ForeignKey(Product.product_id))
     created_at = db.Column(db.DateTime, default = datetime.utcnow)
     updated_at = db.Column(db.DateTime, default = datetime.utcnow)
 
