@@ -14,3 +14,4 @@ migrate = Migrate(app, db)
 
 from app.model import product, variant, image
 from app import routes
+

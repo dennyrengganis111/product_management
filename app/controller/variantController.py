@@ -1,11 +1,25 @@
 from app.model.product import Product
 from app.model.variant import Variant
-from app.controller.utilController import validate_upload_variant,validate_file_ext
+from app.model.image import Image
+from app.controller.utilController import validate_upload_variant,validate_file_ext, Format_get_images_from_variant_id
 
 from app import response, app, db
 from flask import request
 import os, uuid
 from werkzeug.utils import secure_filename
+
+
+
+def get_stored_image_under_variant(id):
+    try:
+        variant = Variant.query.filter_by(variant_id=id).first()
+        if not variant:
+            return response.badRequest([],"Variant ID not found")
+        images = Image.query.filter(Image.item_id == id, Image.item_type == "variant")
+        data = Format_get_images_from_variant_id(images,variant.product_id)
+        return response.success(data, "success")
+    except Exception as e:
+        print(e)
 
 
 def upload_variant():

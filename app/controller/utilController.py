@@ -16,6 +16,36 @@ def Format_get_variant_from_product_id(variants,product_id):
     
     return datas
 
+
+def Format_get_images_from_product_id(images, product_id):
+    datas = {
+        "product_id": product_id,
+        "images" : []
+    }
+    for image in images:
+        datas["images"].append(Image_db_to_dict(image))
+    return datas
+
+def Format_get_images_from_variant_id(images, variant_id):
+    datas = {
+        "variant_id": variant_id,
+        "images" : []
+    }
+    for image in images:
+        datas["images"].append(Image_db_to_dict(image))
+    return datas
+
+def Image_db_to_dict(image):
+    image_dict = {
+        "image_id" : image.image_id,
+        "image_name" : image.image_name,
+        "image_path" : image.image_path,
+        "created_at" : image.created_at,
+        "updated_at" : image.updated_at
+    }
+
+    return image_dict
+
 def Product_db_to_dict(product):
     product_dict = {
         "product_id" : product.product_id,

@@ -1,6 +1,7 @@
 from app.model.product import Product
 from app.model.variant import Variant
-from app.controller.utilController import Format_get_product_list, Format_get_variant_from_product_id, validate_upload_product, validate_file_ext
+from app.model.image import Image
+from app.controller.utilController import Format_get_product_list, Format_get_variant_from_product_id, validate_upload_product, validate_file_ext, Format_get_images_from_product_id
 
 from app import response, app, db
 from flask import request
@@ -19,14 +20,25 @@ def get_product_list():
 def get_product_variant(id):
     try:
         product = Product.query.filter_by(product_id=id).first()
-        variants =  Variant.query.filter(Variant.product_id == id)
-
         if not product:
             return response.badRequest([], "Product ID not found")
+
+        variants =  Variant.query.filter(Variant.product_id == id)
         data = Format_get_variant_from_product_id(variants,product.product_id)
 
         return response.success(data, "success")
 
+    except Exception as e:
+        print(e)
+
+def get_stored_image_under_product(id):
+    try:
+        product = Product.query.filter_by(product_id=id).first()
+        if not product:
+            return response.badRequest([],"Product ID not found")
+        images = Image.query.filter(Image.item_id == id, Image.item_type == "product")
+        data = Format_get_images_from_product_id(images,product.product_id)
+        return response.success(data, "success")
     except Exception as e:
         print(e)
 

@@ -13,6 +13,14 @@ def product_lists():
 def variant_list_by_product_id(id):
     return productController.get_product_variant(id)
 
+@app.route("/image_list_by_product_id/<id>", methods = ["GET"])
+def image_list_by_product_id(id):
+    return productController.get_stored_image_under_product(id)
+
+@app.route("/image_list_by_variant_id/<id>", methods = ["GET"])
+def image_list_by_variant_id(id):
+    return variantController.get_stored_image_under_variant(id)
+
 @app.route("/image_upload",methods = ["POST"])
 def upload_image():
     return imageController.upload_image()
