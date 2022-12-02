@@ -40,3 +40,24 @@ def Variant_db_to_dict(variant):
         "updated_at" : variant.updated_at
     }
     return variant_dict
+
+def validate_file_ext(filename):
+    allowed_ext = ["jpg","jpeg","png"]
+    if filename.split(".")[-1] not in allowed_ext:
+        return False
+    return True
+
+
+def validate_upload_image_request(request):
+    if "image" not in request.files:
+        return "image file not found"
+    file = request.files["image"]
+    if file.filename == "":
+        return "image file not found"
+    
+    if "item_id" not in request.form:
+        return "item_id for image not found"
+    
+    if "item_type" not in request.form:
+        return "item_type not found"
+    

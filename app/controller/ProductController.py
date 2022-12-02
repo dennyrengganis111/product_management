@@ -1,6 +1,6 @@
 from app.model.product import Product
 from app.model.variant import Variant
-from app.controller.FormatController import Format_get_product_list, Format_get_variant_from_product_id
+from app.controller.utilController import Format_get_product_list, Format_get_variant_from_product_id
 
 from app import response, app, db
 from flask import request

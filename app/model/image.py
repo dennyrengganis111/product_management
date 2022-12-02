@@ -6,7 +6,7 @@ class Image(db.Model):
     image_name = db.Column(db.String(250),nullable = False)
     item_type = db.Column(db.String(50), nullable = False)
     item_id = db.Column(db.Integer, nullable = False)
-    image = db.Column(db.LargeBinary)
+    image_path = db.Column(db.String(150), nullable = False)
     created_at = db.Column(db.DateTime, default = datetime.utcnow)
     updated_at = db.Column(db.DateTime, default = datetime.utcnow)
 

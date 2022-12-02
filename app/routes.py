@@ -1,5 +1,5 @@
 from app import app
-from app.controller import ProductController
+from app.controller import productController,imageController
 
 @app.route("/")
 def index():
@@ -7,8 +7,12 @@ def index():
 
 @app.route("/product_lists", methods = ["GET"])
 def product_lists():
-    return ProductController.get_product_list()
+    return productController.get_product_list()
 
 @app.route("/product_variant/<id>", methods = ["GET"])
 def variant_list_by_product_id(id):
-    return ProductController.get_product_variant(id)
+    return productController.get_product_variant(id)
+
+@app.route("/image_upload",methods = ["POST"])
+def upload_image():
+    return imageController.upload_image()
