@@ -41,3 +41,16 @@ def upload_image():
     except Exception as e:
         print(e)
 
+def delete_image(id):
+    try:
+        image = Image.query.filter(Image.image_id == id, Image.status == 1).first()
+        if not image:
+            return response.badRequest([],"Image not found")
+        image.status = 0
+        
+        db.session.commit()
+
+        return response.success({"image_id":image.image_id}, "Image successfully deleted")
+    except Exception as e:
+        print(e)
+            

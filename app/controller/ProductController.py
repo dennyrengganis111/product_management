@@ -11,7 +11,7 @@ from datetime import datetime
 
 def get_product_by_id(id):
     try:
-        product = Product.query.filter_by(product_id = id).first()
+        product = Product.query.filter(Product.product_id == id, Product.status == 1).first()
         if not product:
             return response.badRequest([], "Product ID not found")
         product_dict = Product_db_to_dict(product)
@@ -30,11 +30,11 @@ def get_product_list():
 
 def get_product_variant(id):
     try:
-        product = Product.query.filter_by(product_id=id).first()
+        product = Product.query.filter(Product.product_id == id, Product.status == 1).first()
         if not product:
             return response.badRequest([], "Product ID not found")
 
-        variants =  Variant.query.filter(Variant.product_id == id)
+        variants =  Variant.query.filter(Variant.product_id == id, Variant.status == 1)
         data = Format_get_variant_from_product_id(variants,product.product_id)
 
         return response.success(data, "success")
@@ -44,10 +44,10 @@ def get_product_variant(id):
 
 def get_stored_image_under_product(id):
     try:
-        product = Product.query.filter_by(product_id=id).first()
+        product = Product.query.filter(Product.product_id == id, Product.status == 1).first()
         if not product:
             return response.badRequest([],"Product ID not found")
-        images = Image.query.filter(Image.item_id == id, Image.item_type == "product")
+        images = Image.query.filter(Image.item_id == id, Image.item_type == "product", Image.status == 1)
         data = Format_get_images_from_product_id(images,product.product_id)
         return response.success(data, "success")
     except Exception as e:
@@ -86,7 +86,7 @@ def upload_product():
 
 def edit_product_by_id(id):
     try:
-        product = Product.query.filter_by(product_id=id).first()
+        product = Product.query.filter(Product.product_id == id, Product.status == 1).first()
         if not product:
             return response.badRequest([],"Product ID not found")
 
@@ -128,4 +128,22 @@ def edit_product_by_id(id):
         return response.success(data,"Product updated")
     except Exception as e:
         print(e)
+
+def delete_product_by_id(id):
+    product = Product.query.filter(Product.product_id == id, Product.status == 1).first()
+    if not product:
+        return response.badRequest([],"Product ID not found")
+
+    variants = Variant.query.filter(Variant.product_id == id, Variant.status == 1)
+    for variant in variants:
+        variant.status = 0
+        images = Image.query.filter(Image.item_id == variant.variant_id, Image.item_type == "variant", Image.status == 1)
+        for image in images:
+            image.status = 0
+    images2 = Image.query.filter(Image.item_id == id, Image.item_type == "product", Image.status == 1)
+    for image2 in images2:
+        image2.status = 0
+    product.status = 0
+    db.session.commit()
+    return response.success({"product_id":product.product_id}, "Product deleted")
 

@@ -60,3 +60,18 @@ def upload_product():
 methods = ["POST"])
 def upload_variant():
     return variantController.upload_variant()
+
+@app.route(const.DeleteImageByID,
+methods = ["PUT"])
+def delete_image(id):
+    return imageController.delete_image(id)
+
+@app.route(const.DeleteVariantByID,
+methods = ["PUT"])
+def delete_variant(id):
+    return variantController.delete_variant(id)
+
+@app.route(const.DeleteProductByID,
+methods = ["PUT"])
+def delete_product(id):
+    return productController.delete_product_by_id(id)

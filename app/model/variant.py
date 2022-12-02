@@ -12,6 +12,7 @@ class Variant(db.Model):
     product_id = db.Column(db.BigInteger, db.ForeignKey(Product.product_id))
     created_at = db.Column(db.DateTime, default = datetime.utcnow)
     updated_at = db.Column(db.DateTime, default = datetime.utcnow)
+    status = db.Column(db.Boolean(),default= True)
 
 
     def __repr__(self):

@@ -8,6 +8,7 @@ class Product(db.Model):
     logo = db.Column(db.String(150), nullable= True)
     created_at = db.Column(db.DateTime, default = datetime.utcnow)
     updated_at = db.Column(db.DateTime, default = datetime.utcnow)
+    status = db.Column(db.Boolean(),default= True)
 
 
     def __repr__(self):

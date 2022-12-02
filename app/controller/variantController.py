@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 def get_variant_by_id(id):
     try:
-        variant = Variant.query.filter_by(variant_id = id).first()
+        variant = Variant.query.filter(Variant.variant_id == id, Variant.status == 1).first()
         if not variant:
             return response.badRequest([], "Variant ID not found")
         variant_dict = Variant_db_to_dict(variant)
@@ -20,15 +20,15 @@ def get_variant_by_id(id):
 
 def get_stored_image_under_variant(id):
     try:
-        variant = Variant.query.filter_by(variant_id=id).first()
+        variant = Variant.query.filter(Variant.variant_id == id, Variant.status == 1).first()
+        print(variant)
         if not variant:
             return response.badRequest([],"Variant ID not found")
-        images = Image.query.filter(Image.item_id == id, Image.item_type == "variant")
-        data = Format_get_images_from_variant_id(images,variant.product_id)
+        images = Image.query.filter(Image.item_id == id, Image.item_type == "variant", Image.status == 1)
+        data = Format_get_images_from_variant_id(images,variant.variant_id)
         return response.success(data, "success")
     except Exception as e:
         print(e)
-
 
 def upload_variant():
     try:
@@ -36,7 +36,7 @@ def upload_variant():
         if err:
             return response.badRequest([],err)
         
-        product = Product.query.filter_by(product_id=request.form["product_id"]).first()
+        product = Product.query.filter(Product.product_id==request.form["product_id"],Product.status == 1).first()
         if not product:
             return response.badRequest([],"can't created variant under non existing product id")
         
@@ -70,7 +70,7 @@ def upload_variant():
 
 def edit_variant_by_id(id):
     try:
-        variant = Variant.query.filter_by(variant_id=id).first()
+        variant = Variant.query.filter(Variant.variant_id == id, Variant.status == 1).first()
         if not variant:
             return response.badRequest([],"Variant ID not found")
         
@@ -116,5 +116,20 @@ def edit_variant_by_id(id):
             "logo_path": stored_logo
         }
         return response.success(data, "Varaint updated")
+    except Exception as e:
+        print(e)
+
+
+def delete_variant(id):
+    try:
+        variant = Variant.query.filter(Variant.variant_id == id, Variant.status == 1).first()
+        if not variant:
+            return response.badRequest([],"Variant ID not found")
+        images = Image.query.filter(Image.item_id == id, Image.item_type == "variant", Image.status == 1)
+        for image in images:
+            image.status = 0
+        variant.status = 0
+        db.session.commit()
+        return response.success({"variant_id":variant.variant_id}, "Variant deleted")
     except Exception as e:
         print(e)
