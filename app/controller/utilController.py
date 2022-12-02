@@ -21,7 +21,7 @@ def Product_db_to_dict(product):
         "product_id" : product.product_id,
         "product_name" : product.product_name,
         "product_description" : product.product_description,
-        "logo_id" : product.logo_id,
+        "logo_id" : product.logo,
         "created_at" : product.created_at,
         "updated_at" : product.updated_at
         
@@ -35,7 +35,7 @@ def Variant_db_to_dict(variant):
         "variant_size" : variant.variant_size,
         "variant_metric" : variant.variant_metric,
         "variant_color" : variant.variant_color,
-        "logo_id" : variant.logo_id,
+        "logo_id" : variant.logo,
         "created_at" : variant.created_at,
         "updated_at" : variant.updated_at
     }
@@ -60,4 +60,16 @@ def validate_upload_image_request(request):
     
     if "item_type" not in request.form:
         return "item_type not found"
+    
+def validate_upload_product(request):
+    if "product_name" not in request.form:
+        return "product name is not filled"
+    
+def validate_upload_variant(request):
+    if "variant_name" not in request.form:
+        return "variant name is not filled"
+    if "variant_size" not in request.form:
+        return "variant size is not filled"
+    if "product_id" not in request.form:
+        return "product id of variant is not filled"
     

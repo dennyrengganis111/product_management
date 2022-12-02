@@ -1,5 +1,5 @@
 from app import app
-from app.controller import productController,imageController
+from app.controller import productController,imageController, variantController
 
 @app.route("/")
 def index():
@@ -16,3 +16,11 @@ def variant_list_by_product_id(id):
 @app.route("/image_upload",methods = ["POST"])
 def upload_image():
     return imageController.upload_image()
+
+@app.route("/product_upload", methods = ["POST"])
+def upload_product():
+    return productController.upload_product()
+
+@app.route("/variant_upload", methods = ["POST"])
+def upload_variant():
+    return variantController.upload_variant()

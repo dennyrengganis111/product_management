@@ -8,7 +8,7 @@ class Variant(db.Model):
     variant_size = db.Column(db.String(30), nullable = False)
     variant_metric = db.Column(db.String(10), nullable= True)
     variant_color = db.Column(db.String(30), nullable = True)
-    logo = db.Column(db.String(150), nullable= False)
+    logo = db.Column(db.String(150), nullable= True)
     product_id = db.Column(db.BigInteger, db.ForeignKey(Product.product_id))
     created_at = db.Column(db.DateTime, default = datetime.utcnow)
     updated_at = db.Column(db.DateTime, default = datetime.utcnow)

@@ -4,11 +4,8 @@ from app.controller.utilController import validate_file_ext, validate_upload_ima
 from app import response, app, db
 from flask import request
 
-import os
-import uuid
+import os, uuid
 from werkzeug.utils import secure_filename
-
-from datetime import datetime
 
 def upload_image():
     try:
