@@ -1,11 +1,11 @@
 from app import app
 from app.controller import productController,imageController, variantController
-from app import const
+from app import const, response
 from flask import request
 
-@app.route("/")
+@app.route("/hello")
 def index():
-    return "Hello World"
+    return response.success("Hello world", "success")
 
 
 @app.route(const.GetProductByID,
