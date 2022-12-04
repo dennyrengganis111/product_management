@@ -21,7 +21,7 @@ def get_product_by_id(id):
 
 def get_product_list():
     # try:
-    products = Product.query.all()
+    products = Product.query.filter(Product.status == 1)
     data = Format_get_product_list(products)
     return response.success(data, "success")
 

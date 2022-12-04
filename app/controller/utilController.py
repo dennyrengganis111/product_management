@@ -67,7 +67,8 @@ def Variant_db_to_dict(variant):
         "variant_color" : variant.variant_color,
         "logo_id" : variant.logo,
         "created_at" : variant.created_at,
-        "updated_at" : variant.updated_at
+        "updated_at" : variant.updated_at,
+        "product_id" : variant.product_id
     }
     return variant_dict
 
